@@ -13,6 +13,5 @@ def getData(request):
 def addItem(request):
     serializer = ItemSerializer(data=request.data)
     if serializer.is_valid():
-        # saves into database
         serializer.save()
     return Response(serializer.data)

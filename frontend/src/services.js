@@ -1,2 +1,10 @@
 import http from "./http-common";
-import axios from 'axios';
+
+const getAllItems = key => {
+    return http.get('/')
+}
+
+const functions = {
+    getAllItems,
+};
+export default functions
