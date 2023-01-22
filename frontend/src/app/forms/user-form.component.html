@@ -1,8 +1,17 @@
+{{ model | json }}
 <div class="form-group">
     <label for="name">Name</label>
-        <input type="text" class="form-control" id="name" placeholder="Enter name" required>
+        <input type="text" class="form-control" id="name" placeholder="Enter name" 
+          required
+          [(ngModel)]="model.fullName" name="name">
     <label for="student-status">Student Status</label>
-    <select class="form-control" id="student" required>
+    <select class="form-control" id="student" 
+      required
+      [(ngModel)]="model.studentStatus" name="studentStatus">
       <option *ngFor="let status of studentStatuses" [value]="status">{{status}}</option>
     </select>
+    <label for="major">Major</label>
+    <input type="text" class="form-control" id="major" placeholder="Enter major (if applicable)" 
+      required
+      [(ngModel)]="model.major" name="major">
 </div>
