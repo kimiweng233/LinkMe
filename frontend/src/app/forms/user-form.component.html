@@ -1,17 +1,52 @@
-{{ model | json }}
-<div class="form-group">
-    <label for="name">Name</label>
-        <input type="text" class="form-control" id="name" placeholder="Enter name" 
-          required
-          [(ngModel)]="model.fullName" name="name">
-    <label for="student-status">Student Status</label>
-    <select class="form-control" id="student" 
-      required
-      [(ngModel)]="model.studentStatus" name="studentStatus">
-      <option *ngFor="let status of studentStatuses" [value]="status">{{status}}</option>
-    </select>
-    <label for="major">Major</label>
-    <input type="text" class="form-control" id="major" placeholder="Enter major (if applicable)" 
-      required
-      [(ngModel)]="model.major" name="major">
+<div class="container">
+  <div [hidden]="submitted">
+    <h1>User Information</h1>
+    <form (ngSubmit)="onSubmit()" #userForm="ngForm"></form>
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" class="form-control" id="name" placeholder="Enter name" required [(ngModel)]="model.fullName"
+          name="name" #name="ngModel">
+        <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
+          Name is required
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="student-status">Student Status</label>
+        <select class="form-control" id="student" 
+                required 
+                [(ngModel)]="model.studentStatus" name="studentStatus">
+          <option *ngFor="let status of studentStatuses" [value]="status">{{status}}</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="major">Major</label>
+        <input type="text" class="form-control" id="major" placeholder="Enter major (if applicable)" required
+                [(ngModel)]="model.major" name="major">
+      </div>
+    </div>
+  <button type="submit" class="btn btn-success" [disabled]="!userForm.form.valid">
+    Submit
+  </button>
+
+</div>
+
+
+<div [hidden]="!submitted">
+  <h2>You submitted the following:</h2>
+  <div class="row">
+    <div class="col-xs-3">Name</div>
+    <div class="col-xs-9">{{ model.fullName }}</div>
+  </div>
+  <div class="row">
+    <div class="col-xs-3">Alter Ego</div>
+    <div class="col-xs-9">{{ model.studentStatus }}</div>
+  </div>
+  <div class="row">
+    <div class="col-xs-3">Power</div>
+    <div class="col-xs-9">{{ model.major }}</div>
+  </div>
+  <br>
+  <button type="button" class="btn btn-primary" (click)="submitted=false">Edit</button>
 </div>
