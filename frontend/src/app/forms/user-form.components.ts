@@ -6,6 +6,7 @@ import { User } from '../user';
     templateUrl: './user-form.component.html',
     styleUrls: ['./user-form.component.css']
 })
+
 export class UserFormComponent {
     
     studentStatuses = ['Freshman', 'Sophomore', 'Junior', 'Senior', 'Graduate'];

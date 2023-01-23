@@ -26,25 +26,25 @@
                 [(ngModel)]="model.major" name="major">
       </div>
     </div>
-  <button type="submit" class="btn btn-success" [disabled]="!userForm.form.valid">
+  <button type="button" class="btn btn-success" [disabled]="!userForm.form.valid">
     Submit
   </button>
 
 </div>
 
 
-<div [hidden]="!submitted">
+<div [hidden]="submitted">
   <h2>You submitted the following:</h2>
   <div class="row">
     <div class="col-xs-3">Name</div>
     <div class="col-xs-9">{{ model.fullName }}</div>
   </div>
   <div class="row">
-    <div class="col-xs-3">Alter Ego</div>
+    <div class="col-xs-3">Student Status</div>
     <div class="col-xs-9">{{ model.studentStatus }}</div>
   </div>
   <div class="row">
-    <div class="col-xs-3">Power</div>
+    <div class="col-xs-3">Major</div>
     <div class="col-xs-9">{{ model.major }}</div>
   </div>
   <br>
