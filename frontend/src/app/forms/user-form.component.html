@@ -1,7 +1,7 @@
 <div class="container">
   <div [hidden]="submitted">
     <h1>User Information</h1>
-    <form (ngSubmit)="onSubmit()" #userForm="ngForm"></form>
+    <form (ngSubmit)="onSubmit()" #userForm="ngForm">
       <div class="form-group">
         <label for="name">Name</label>
         <input type="text" class="form-control" id="name" placeholder="Enter name" required [(ngModel)]="model.fullName"
@@ -12,8 +12,8 @@
       </div>
 
       <div class="form-group">
-        <label for="student-status">Student Status</label>
-        <select class="form-control" id="student" 
+        <label for="studentStatus">Student Status</label>
+        <select class="form-control" id="studentStatus" 
                 required 
                 [(ngModel)]="model.studentStatus" name="studentStatus">
           <option *ngFor="let status of studentStatuses" [value]="status">{{status}}</option>
@@ -25,15 +25,16 @@
         <input type="text" class="form-control" id="major" placeholder="Enter major (if applicable)" required
                 [(ngModel)]="model.major" name="major">
       </div>
-    </div>
-  <button type="button" class="btn btn-success" [disabled]="!userForm.form.valid">
+    
+  <button type="success" class="btn btn-success" [disabled]="!userForm.form.valid">
     Submit
   </button>
-
+  </form>
+  </div>
 </div>
 
 
-<div [hidden]="submitted">
+<div [hidden]="!submitted">
   <h2>You submitted the following:</h2>
   <div class="row">
     <div class="col-xs-3">Name</div>
