@@ -25,4 +25,8 @@ export class UserFormComponent {
     newUser() {
         this.model = new User('', '', '', '', '', '');
     }
+
+    changeBool(val: boolean) {
+        val = !val;
+    }
 }
