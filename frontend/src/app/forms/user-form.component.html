@@ -33,21 +33,40 @@
   </div>
 </div>
 
+<div class="container">
+  
+  <!-- Conditional div to show user submission + make generation option appear -->
 
-<div [hidden]="!submitted">
-  <h2>You submitted the following:</h2>
-  <div class="row">
-    <div class="col-xs-3">Name</div>
-    <div class="col-xs-9">{{ model.fullName }}</div>
+  <div [hidden]="!submitted" d-flex justify-content-between>
+    
+    <!-- User submission -->
+    <div class="submission" pull-left>
+      <h2>You submitted the following:</h2>
+      <div class="row">
+        <div class="col-xs-3">Name</div>
+        <div class="col-xs-9">{{ model.fullName }}</div>
+      </div>
+      <div class="row">
+        <div class="col-xs-3">Student Status</div>
+        <div class="col-xs-9">{{ model.studentStatus }}</div>
+      </div>
+      <div class="row">
+        <div class="col-xs-3">Major</div>
+        <div class="col-xs-9">{{ model.major }}</div>
+      </div>
+      <br>
+      <button type="button" class="btn btn-primary" (click)="submitted=false">Edit</button>
+    </div>
+
+    <!-- Generation field -->
+
+    <div class="generator" pull-right>
+      <h1>Hello</h1>
+
+    </div>
+
   </div>
-  <div class="row">
-    <div class="col-xs-3">Student Status</div>
-    <div class="col-xs-9">{{ model.studentStatus }}</div>
-  </div>
-  <div class="row">
-    <div class="col-xs-3">Major</div>
-    <div class="col-xs-9">{{ model.major }}</div>
-  </div>
-  <br>
-  <button type="button" class="btn btn-primary" (click)="submitted=false">Edit</button>
+
+  
+
 </div>
