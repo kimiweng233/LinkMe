@@ -11,9 +11,29 @@ export class UserFormComponent {
     
     studentStatuses = ['Freshman', 'Sophomore', 'Junior', 'Senior', 'Graduate'];
 
-    jobExperience = "Conducting weekly help sessions for women of underrepresented groups in their AP Computer Science A/P classes focused on fundamentals of programming in Java and Python Leading a 3-hour intensive program that occurs once per month to introduce object-oriented programming concepts such as class design, polymorphism and inheritance, and abstraction";
+    technicalSkills = ['Java', 'Python', 
+                        'C++', 'C', 
+                        'C#', 'JavaScript', 
+                        'HTML', 'CSS', 
+                        'SQL', 'NoSQL', 
+                        'React', 'Angular', 
+                        'Vue', 'Node', 
+                        'Express', 'Django', 
+                        'Flask', 'Ruby', 
+                        'Rails', 'PHP', 
+                        'Laravel', 'Swift', 
+                        'Kotlin', 'Android', 
+                        'Git',]
+    jobExperience = {
+        'Title' : '',
+        'Company' : '',
+        'Start' : '',
+        'End' : '',
+        'Description' : '',
+        'Skiils' : [],
+    }
     
-    model = new User('Michael Hu', this.studentStatuses[1], this.jobExperience, '2017-01-01', '2017-12-31', 'Computer Science');
+    model = new User('Michael Hu', this.studentStatuses[1], this.jobExperience, this.technicalSkills, 'Computer Science');
     
     submitted = false;
     
@@ -23,7 +43,7 @@ export class UserFormComponent {
     }
 
     newUser() {
-        this.model = new User('', '', '', '', '', '');
+        this.model = new User('', '', {}, [], '');
     }
 
     changeBool(val: boolean) {

@@ -5,3 +5,18 @@
   .ng-invalid:not(form)  {
     border-left: 5px solid #a94442; /* red */
   }
+
+  .container {
+    display: flex;
+    width: 50%;
+  }
+
+  .userSubmission {
+    flex: 1;
+    margin: 10px;
+  }
+
+  .generator {
+    flex: 1;
+    margin: 10px;
+  }

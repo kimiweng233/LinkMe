@@ -1,5 +1,5 @@
 <div class="container">
-  <div [hidden]="submitted">
+  <div class="userSubmission">
     <h1>User Information</h1>
     <form (ngSubmit)="onSubmit()" #userForm="ngForm">
       <div class="form-group">
@@ -13,9 +13,7 @@
 
       <div class="form-group">
         <label for="studentStatus">Student Status</label>
-        <select class="form-control" id="studentStatus" 
-                required 
-                [(ngModel)]="model.studentStatus" name="studentStatus">
+        <select class="form-control" id="studentStatus" required [(ngModel)]="model.studentStatus" name="studentStatus">
           <option *ngFor="let status of studentStatuses" [value]="status">{{status}}</option>
         </select>
       </div>
@@ -23,69 +21,46 @@
       <div class="form-group">
         <label for="major">Major</label>
         <input type="text" class="form-control" id="major" placeholder="Enter major (if applicable)" required
-                [(ngModel)]="model.major" name="major">
+          [(ngModel)]="model.major" name="major">
       </div>
-    
-  <button type="success" class="btn btn-success" [disabled]="!userForm.form.valid">
-    Submit
-  </button>
-  </form>
-  </div>
-</div>
 
-<div class="container">
-  
-  <!-- Conditional div to show user submission + make generation option appear -->
+      <button type="success" class="btn btn-success" [disabled]="!userForm.form.valid">
+        Submit
+      </button>
+    </form>
 
-  <div [hidden]="!submitted" d-flex justify-content-between>
-    
-    <!-- User submission -->
-    <div class="submission" pull-left>
-      <h2>You submitted the following:</h2>
-      <div class="row">
-        <div class="col-xs-3">Name</div>
-        <div class="col-xs-9">{{ model.fullName }}</div>
+    <!-- Conditional div to show user submission + make generation option appear -->
+
+    <div class="confirmation" [hidden]="!submitted">
+
+      <!-- User submission -->
+      <div class="submission">
+        <h2>You submitted the following:</h2>
+        <div class="row">
+          <div class="col-xs-3">Name:</div>
+          <div class="col-xs-9">{{ model.fullName }}</div>
+        </div>
+        <div class="row">
+          <div class="col-xs-3">Status:</div>
+          <div class="col-xs-9">{{ model.studentStatus }}</div>
+        </div>
+        <div class="row">
+          <div class="col-xs-3">Major:</div>
+          <div class="col-xs-9">{{ model.major }}</div>
+        </div>
+        <br>
+        <button type="button" class="btn btn-primary" (click)="submitted=false">Edit</button>
       </div>
-      <div class="row">
-        <div class="col-xs-3">Student Status</div>
-        <div class="col-xs-9">{{ model.studentStatus }}</div>
-      </div>
-      <div class="row">
-        <div class="col-xs-3">Major</div>
-        <div class="col-xs-9">{{ model.major }}</div>
-      </div>
-      <br>
-      <button type="button" class="btn btn-primary" (click)="submitted=false">Edit</button>
     </div>
+  </div>
+
+  
 
     <!-- Generation field -->
 
-    <div class="generator" pull-right>
-      <h1>Hello</h1>
+    <div class="generator">
+      <h1>Generator</h1>
 
     </div>
-
-<<<<<<< HEAD
-<div [hidden]="!submitted">
-  <h2>You submitted the following:</h2>
-  <div class="row">
-    <div class="col-xs-3">Name</div>
-    <div class="col-xs-9">{{ model.fullName }}</div>
-  </div>
-  <div class="row">
-    <div class="col-xs-3">Student Status</div>
-    <div class="col-xs-9">{{ model.studentStatus }}</div>
-  </div>
-  <div class="row">
-    <div class="col-xs-3">Major</div>
-    <div class="col-xs-9">{{ model.major }}</div>
-  </div>
-  <br>
-  <button type="button" class="btn btn-primary" (click)="submitted=true">Edit</button>
-=======
-  </div>
-
   
-
->>>>>>> 834c736c2674feca71374ee3c6dca8ab68358da3
 </div>
