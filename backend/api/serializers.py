@@ -1,7 +1,16 @@
 from rest_framework import serializers
-from base.models import Item
+from base.models import candidateInfo
 
-class ItemSerializer(serializers.ModelSerializer):
+class JSONSerializerField(serializers.Field):
+    def to_internal_value(self, data):
+        return data
+    def to_representation(self, value):
+        return value
+
+class candidateInfoSerializer(serializers.ModelSerializer):
+    skills = JSONSerializerField()
+    experiences = JSONSerializerField()
+
     class Meta:
-        model = Item
-        fields = '__all__'
+        model = candidateInfo
+        fields = ('name', 'schoolYear', 'major', 'skills', 'experiences')
