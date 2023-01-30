@@ -37,7 +37,7 @@ export class UserFormComponent {
     }
     
 
-    model = new User('Michael Hu', this.studentStatuses[1], this.jobExperience, this.technicalSkills, 'Computer Science');
+    model = new User('', '', '', {}, {});
     
     submitted = false;
     
@@ -89,15 +89,15 @@ export class UserFormComponent {
     }
 
     newUser() {
-        this.model = new User('', '', {}, [], '');
+        this.model = new User('', '', '', {}, {});
     }
 
     changeBool(val: boolean) {
         val = !val;
     }
     
-    addName(name: string) {
-        this.model.fullName = name;
+    getName(name: string) {
+        return this.model.fullName;
     }
 
     getModel() {

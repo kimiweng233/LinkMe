@@ -12,7 +12,7 @@ import { UserFormComponent} from './forms/user-form.components';
     BrowserModule,
     CommonModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
   ],
   declarations: [
     AppComponent,
