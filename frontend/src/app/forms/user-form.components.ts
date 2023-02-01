@@ -12,31 +12,10 @@ export class UserFormComponent {
 
     constructor(private service: Service) { }
     
-    studentStatuses = ['Freshman', 'Sophomore', 'Junior', 'Senior', 'Graduate'];
+    ngOnInit(): void {
 
-    technicalSkills = ['Java', 'Python', 
-                        'C++', 'C', 
-                        'C#', 'JavaScript', 
-                        'HTML', 'CSS', 
-                        'SQL', 'NoSQL', 
-                        'React', 'Angular', 
-                        'Vue', 'Node', 
-                        'Express', 'Django', 
-                        'Flask', 'Ruby', 
-                        'Rails', 'PHP', 
-                        'Laravel', 'Swift', 
-                        'Kotlin', 'Android', 
-                        'Git',]
-    jobExperience = {
-        'Title' : '',
-        'Company' : '',
-        'Start' : '',
-        'End' : '',
-        'Description' : '',
-        'Skiils' : [],
     }
-    
-
+    // name, student status, major, skills, experience
     model = new User('', '', '', {}, {});
     
     submitted = false;
@@ -45,9 +24,9 @@ export class UserFormComponent {
         this.submitted = true; 
         console.log("Made it here");
         const testData = {
-            "name": "Kimi Weng",
-            "gradeLevel": "Sophomore",
-            "major": "Computer Science",
+            "name": this.model.fullName,
+            "gradeLevel": this.model.studentStatus,
+            "major": this.model.major,
             "skills": {
                 "1": "C++",
                 "2": "Python",
@@ -90,17 +69,5 @@ export class UserFormComponent {
 
     newUser() {
         this.model = new User('', '', '', {}, {});
-    }
-
-    changeBool(val: boolean) {
-        val = !val;
-    }
-    
-    getName(name: string) {
-        return this.model.fullName;
-    }
-
-    getModel() {
-        return this.model;
     }
 }
