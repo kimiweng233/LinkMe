@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { User } from '../user';
 import { Service } from 'src/app/services/service';
+import { FormGroup, FormControl, FormArray, FormBuilder } from '@angular/forms';
+
 
 @Component({
     selector: 'app-user-form',
@@ -10,20 +12,40 @@ import { Service } from 'src/app/services/service';
 
 export class UserFormComponent {
 
-    constructor(private service: Service) { }
+    constructor(private service: Service, private fb: FormBuilder) { }
     
-    ngOnInit(): void {
-
-    }
+    user = this.fb.group({
+        name: '',
+        gradeLevel: '',
+        major: '',
+        skills: this.fb.array([
+            this.fb.control('')
+        ]),
+        experiences: this.fb.array([]),
+    })
     // name, student status, major, skills, experience
     model = new User('', '', '', {}, {});
     
     submitted = false;
     
+    
+
+    newUser() {
+        this.model = new User('', '', '', {}, {});
+    }
+    
+    get skills(): FormArray {
+        return this.user.get('skills') as FormArray;
+    }
+
+    addSkill() {
+        this.skills.push(this.fb.control(''));
+    }
+
     onSubmit() { 
         this.submitted = true; 
         console.log("Made it here");
-        const testData = {
+        const returnData = {
             "name": this.model.fullName,
             "gradeLevel": this.model.studentStatus,
             "major": this.model.major,
@@ -56,7 +78,7 @@ export class UserFormComponent {
                 }
             }
         }
-        this.service.uploadCandidateInfo(testData).subscribe(
+        this.service.uploadCandidateInfo(returnData).subscribe(
             response => {
                 console.log(response);
                 this.submitted = true;
@@ -65,9 +87,5 @@ export class UserFormComponent {
                 console.log(error);
             }
         )
-    }
-
-    newUser() {
-        this.model = new User('', '', '', {}, {});
     }
 }
