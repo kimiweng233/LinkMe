@@ -1,0 +1,49 @@
+<p>experience-form works!</p>
+<form [formGroup]="experienceForm" class="container mt-3">
+    <button type="button" class="btn btn-primary mb-2" (click)="addExperience()">Add Experience</button>
+
+    <section class="container border mb-4 p-3" formArrayName="experiences"
+        *ngFor="let experience of experienceControls; let i = index;">
+        <div [formGroupName]="i">
+            <div class="row">
+                <div class="col-6">
+                    <h4>Experience {{i + 1}}</h4>
+                </div>
+                <div class="col-6 text-right">
+                    <button type="button" class="btn btn-danger btn-sm" (click)="removeExperience(i)">Remove</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group">
+                        <label>Title</label>
+                        <input type="text" class="form-control" formControlName="title"
+                            placeholder="Job Name" />
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <label>Company Name</label>
+                        <input type="text" class="form-control" formControlName="company" placeholder="Company Name" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group">
+                        <label>Start Date</label>
+                        <input type="text" class="form-control" formControlName="startDate" placeholder="Start Date" />
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <label>End Date (If Applicable)</label>
+                        <input type="text" class="form-control" formControlName="endDate" placeholder="End Date">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+</form>

@@ -18,32 +18,25 @@ export class UserFormComponent {
         this.fb.control('')
     ])
 
-    experienceForm = this.fb.array([
-        this.fb.group({
-        title: [''],
-        company: [''],
-        startDate: [''],
-        endDate: [''],
-        description: [''],
-        })
-    ])
+    public experienceForm: FormGroup;
 
     userForm = this.fb.group({
         fullName: ['', Validators.required],
         gradeLevel: [''],
         major: [''],
         skills: this.skillForm,
-        experiences: this.experienceForm,
     })
 
     
     constructor(private service: Service, private fb: FormBuilder) { }
+    
+    
     // name, student status, major, skills, experience
     model = new User('', '', '', {}, {});
     
     submitted = false;
 
-    getuserForm() {
+    get userFormData() {
         return this.userForm as FormGroup;
     }
     get skills(): FormArray {
@@ -54,21 +47,6 @@ export class UserFormComponent {
     }
     removeSkill(i: number) {
         this.skills.removeAt(i);
-    }
-    get experiences(): FormArray {
-        return this.userForm.get('experiences') as FormArray;
-    }
-    addExperience() {
-        this.experiences.push(this.fb.group({
-            title: this.fb.control(''),
-            company: this.fb.control(''),
-            startDate: this.fb.control(''),
-            endDate: this.fb.control(''),
-            description: this.fb.control(''),
-        }));
-    }
-    removeExperience(i: number) {
-        this.experiences.removeAt(i);
     }
     onSubmit() { 
         this.submitted = true; 

@@ -6,6 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { UserFormComponent} from './forms/user-form.components';
+import { ExperienceFormComponent } from './experience-form/experience-form.component';
 
 @NgModule({
   imports: [
@@ -18,6 +19,7 @@ import { UserFormComponent} from './forms/user-form.components';
   declarations: [
     AppComponent,
     UserFormComponent,
+    ExperienceFormComponent,
   ],
   providers: [],
   bootstrap: [ AppComponent ]
