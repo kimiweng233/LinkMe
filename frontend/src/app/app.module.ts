@@ -1,22 +1,25 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { UserFormComponent} from './forms/user-form.components';
+import { ExperienceFormComponent } from './experience-form/experience-form.component';
 
 @NgModule({
   imports: [
     BrowserModule,
     CommonModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    ReactiveFormsModule,
   ],
   declarations: [
     AppComponent,
-    UserFormComponent
+    UserFormComponent,
+    ExperienceFormComponent,
   ],
   providers: [],
   bootstrap: [ AppComponent ]
