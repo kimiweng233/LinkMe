@@ -44,6 +44,7 @@ export class UserFormComponent {
         this.submitted = true; 
         console.log("Made it here");
         const testData = {
+            "url": "https://www.linkedin.com/jobs/search/?currentJobId=3339978993&f_JT=I&keywords=software%20engineer%20intern",
             "name": "Kimi Weng",
             "gradeLevel": "Sophomore",
             "major": "Computer Science",
