@@ -38,5 +38,4 @@ export class ExperienceFormComponent {
   removeExperience(i: number): void {
     this.experiences.removeAt(i);
   }
-
 }
