@@ -26,7 +26,6 @@ def profileOrganizer(data):
 def generatePrompt(profile, url):
     prompt = ""
     jobDescription = jobScraping.getJobDescription(url)
-    print(jobDescription)
     prompt += "Given this job posting:\n"
     prompt += (jobDescription + "\n\n")
     prompt += "and these candidate info:\n"

@@ -5,17 +5,17 @@ from django.dispatch import receiver
 
 class candidateInfo(models.Model):
     SCHOOL_YEAR_CHOICES = [
-        ('F', 'Freshman'),
-        ('S', 'Sophomore'),
-        ('J', 'Junior'),
-        ('S', 'Senior'),
-        ('G', 'Graduate'),
+        ('Freshman', 'Freshman'),
+        ('Sophomore', 'Sophomore'),
+        ('Junior', 'Junior'),
+        ('Senior', 'Senior'),
+        ('Graduate', 'Graduate'),
     ]
     id = models.AutoField(primary_key=True)
     user = models.OneToOneField(User, related_name="profile", on_delete=models.CASCADE, default=None)
     name = models.CharField(max_length=50)
     schoolYear = models.CharField(
-        max_length=1,
+        max_length=10,
         choices=SCHOOL_YEAR_CHOICES,
     )
     major = models.CharField(max_length=50)

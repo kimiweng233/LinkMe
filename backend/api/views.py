@@ -1,5 +1,6 @@
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from base.models import candidateInfo
 from .serializers import candidateInfoSerializer, UserSerializer
 from base.generate import coverLetterGenerator
@@ -14,9 +15,29 @@ def getData(request):
     return Response(serializer.data)
 
 @api_view(['POST'])
+@permission_classes([AllowAny])
 def generateCoverLetter(request):
-    coverLetter = coverLetterGenerator(request.data)
-    return Response({"testCoverLetter":coverLetter})
+    if request.user.is_authenticated:
+        accountJson = getProfileFromUserAccount(request.user.email, request.data["url"])
+        coverLetter = coverLetterGenerator(accountJson)
+    else:
+        coverLetter = coverLetterGenerator(request.data)
+    return Response({"data":coverLetter})
+
+def getProfileFromUserAccount(email, url):
+    try:
+        userProfile = User.objects.get(email=email1).profile
+    except BaseException as e:
+        raise ValidationError({"400": f'{str(e)}'})
+    profile = {}
+    profile["url"] = url
+    profile["name"] = userProfile.name
+    profile["gradeLevel"] = userProfile.schoolYear
+    profile["major"] = userProfile.major
+    profile["skills"] = userProfile.skills
+    profile["experiences"] = userProfile.experiences
+    return profile
+
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
@@ -31,10 +52,32 @@ def createUser(request):
             return Response(json, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-# @api_view(['POST'])
-# @permission_classes([AllowAny])
-# def loginUser(request):
-#     email = request.data['email']
-#     password = request.data['password']
-#     try:
-#         Account = User.objects.get(Email_Address=email1)
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def loginUser(request):
+    email = request.data['email']
+    password = request.data['password']
+    try:
+        Account = User.objects.get(email=email1)
+    except BaseException as e:
+        raise ValidationError({"400": f'{str(e)}'})
+    token = Token.objects.get_or_create(user=Account)[0].key
+    if not check_password(password, Account.password):
+        raise ValidationError({"message": "Incorrect Login credentials"})
+    if Account:
+        if Account.is_active:
+            login(request, Account)
+            data = {}
+            data["message"] = "user logged in"
+            return Response({"data": data, "token": token})
+        else:
+            raise ValidationError({"400": f'Account not active'})
+    else:
+            raise ValidationError({"400": f'Account doesnt exist'})
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def logoutUser(request):
+    request.user.auth_token.delete()
+    logout(request)
+    return Response('User Logged out successfully')
