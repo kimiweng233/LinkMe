@@ -6,7 +6,7 @@ export class User {
         public studentStatus: string,
         public major: string,
         public skills: object,
-        public experience: object,
+        public experience: Array<object>,
     ) { }
 
 }

@@ -12,7 +12,7 @@ import { Validators } from '@angular/forms';
 })
 
 export class UserFormComponent {
-
+    submitted = false;
     studentStatuses = ['Freshman', 'Sophomore', 'Junior', 'Senior', 'Graduate'];
 
     skillForm = this.fb.array([
@@ -20,34 +20,22 @@ export class UserFormComponent {
     ])
 
     public experiences: FormArray;
-    public experienceForm = this.fb.group({
-        experiences: this.fb.array([this.createExperience()])
-    });
+    public experienceForm: FormGroup;
 
     userForm = this.fb.group({
         url: [''],
         fullName: ['', Validators.required],
         gradeLevel: [''],
         major: [''],
-        skills: this.skillForm,
-        exp: this.experienceForm,
+        skills: this.skillForm
     })
 
-    constructor(private service: Service, private fb: FormBuilder) { }
+    constructor(private service: Service, private fb: FormBuilder) { 
+        this.experienceForm = this.fb.group({
+            experiences: this.fb.array([this.createExperience()])
+        });
+    }
         
-    get experienceControls() {
-      return this.experienceForm.get('experiences')['controls'];
-    }
-    
-    addExperience(): void {
-      this.experiences = this.experienceForm.get('experiences') as FormArray;
-      this.experiences.push(this.createExperience());
-    }
-
-    removeExperience(i: number) {
-        this.experiences.removeAt(i);
-    }
-
     createExperience(): FormGroup {
         return this.fb.group({
             title: '',
@@ -56,10 +44,23 @@ export class UserFormComponent {
             endDate: '',
             description: '',
         });
-    }
+      }
+    
+      get experienceControls() {
+        return this.experienceForm.get('experiences')['controls'];
+      }
+    
+      addExperience(): void {
+        this.experiences = this.experienceForm.get('experiences') as FormArray;
+        this.experiences.push(this.createExperience());
+      }
+    
+      removeExperience(i: number): void {
+        this.experiences.removeAt(i);
+      }
     // name, student status, major, skills, experience
     
-    submitted = false;
+    
 
     get userFormData() {
         return this.userForm as FormGroup;
@@ -77,8 +78,16 @@ export class UserFormComponent {
     onSubmit() { 
         this.submitted = true; 
         console.log("Made it here");
-        
-        let temp = this.userForm.getRawValue();
+        let experienceData = this.experienceForm.getRawValue();
+        let userData = this.userForm.getRawValue();
+        const returnData = {
+            "url": userData.url,
+            "name": userData.fullName,
+            "gradeLevel": userData.gradeLevel,
+            "major": userData.major,
+            "skills": userData.skills,
+            "experiences": experienceData
+        }
         // const testData = {
         //     "url": "https://www.linkedin.com/jobs/search/?currentJobId=3339978993&f_JT=I&keywords=software%20engineer%20intern",
         //     "name": "Kimi Weng",
@@ -113,7 +122,7 @@ export class UserFormComponent {
         //         }
         //     }
         // }
-        this.service.uploadCandidateInfo(temp).subscribe(
+        this.service.uploadCandidateInfo(returnData).subscribe(
             response => {
                 console.log(response);
                 this.submitted = true;
