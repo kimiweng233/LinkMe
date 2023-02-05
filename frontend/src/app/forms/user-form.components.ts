@@ -1,10 +1,9 @@
-import { Component, Input, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, Input, ViewChild, AfterViewInit, OnInit } from '@angular/core';
 import { ExperienceFormComponent } from '../experience-form/experience-form.component';
 import { User } from '../user';
 import { Service } from 'src/app/services/service';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { Validators } from '@angular/forms';
-
 
 @Component({
     selector: 'app-user-form',
@@ -14,28 +13,51 @@ import { Validators } from '@angular/forms';
 
 export class UserFormComponent {
 
-    @ViewChild(ExperienceFormComponent) exp;
     studentStatuses = ['Freshman', 'Sophomore', 'Junior', 'Senior', 'Graduate'];
 
     skillForm = this.fb.array([
         this.fb.control('')
     ])
-    url: string;
-    experiences: object;
+
+    public experiences: FormArray;
+    public experienceForm = this.fb.group({
+        experiences: this.fb.array([this.createExperience()])
+    });
+
     userForm = this.fb.group({
         url: [''],
         fullName: ['', Validators.required],
         gradeLevel: [''],
         major: [''],
         skills: this.skillForm,
-        experiences: [],
+        exp: this.experienceForm,
     })
 
     constructor(private service: Service, private fb: FormBuilder) { }
+        
+    get experienceControls() {
+      return this.experienceForm.get('experiences')['controls'];
+    }
     
-    
+    addExperience(): void {
+      this.experiences = this.experienceForm.get('experiences') as FormArray;
+      this.experiences.push(this.createExperience());
+    }
+
+    removeExperience(i: number) {
+        this.experiences.removeAt(i);
+    }
+
+    createExperience(): FormGroup {
+        return this.fb.group({
+            title: '',
+            company: '',
+            startDate: '',
+            endDate: '',
+            description: '',
+        });
+    }
     // name, student status, major, skills, experience
-    model = new User('','', '', '', {}, {});
     
     submitted = false;
 
@@ -45,21 +67,18 @@ export class UserFormComponent {
     get skills(): FormArray {
         return this.userForm.get('skills') as FormArray;
     }
+    
     addSkill() {
         this.skills.push(this.fb.control(''));
     }
     removeSkill(i: number) {
         this.skills.removeAt(i);
     }
-    ngAfterViewInit() {
-        this.experiences = this.exp.getRawValue();
-    }
     onSubmit() { 
         this.submitted = true; 
         console.log("Made it here");
         
         let temp = this.userForm.getRawValue();
-        temp['experiences'].push(this.experiences);
         // const testData = {
         //     "url": "https://www.linkedin.com/jobs/search/?currentJobId=3339978993&f_JT=I&keywords=software%20engineer%20intern",
         //     "name": "Kimi Weng",
@@ -103,10 +122,6 @@ export class UserFormComponent {
                 console.log(error);
             }
         )
-    }
-
-    newUser() {
-        this.model = new User('', '', '', '', {}, {});
     }
 
     changeBool(val: boolean) {

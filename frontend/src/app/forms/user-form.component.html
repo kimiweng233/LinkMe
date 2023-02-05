@@ -1,70 +1,127 @@
 <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
-  <h1>User Information</h1>
 
-  <div class="form-group">
-    <label for="fullName">Full Name</label>
-    <input type="text" class="form-control" id="fullName" placeholder="Enter full name" formControlName="fullName">
-  </div>
+  <!-- userForm starts here -->
+    <h1>User Information</h1>
 
-  <div class="form-group">
-    <label for="studentStatus">Student Status</label>
-    <select class="form-control" id="studentStatus" required>
-      <option *ngFor="let status of studentStatuses" [value]="status">{{status}}</option>
-    </select>
-  </div>
+    <div class="form-group">
+      <label for="fullName">Full Name</label>
+      <input type="text" class="form-control" id="fullName" placeholder="Enter full name" formControlName="fullName">
+    </div>
 
-  <div class="form-group">
-    <label for="major">Major</label>
-    <input type="text" class="form-control" id="major" placeholder="Enter major (if applicable)" required>
-  </div>
+    <div class="form-group">
+      <label for="studentStatus">Student Status</label>
+      <select class="form-control" id="studentStatus" required>
+        <option *ngFor="let status of studentStatuses" [value]="status">{{status}}</option>
+      </select>
+    </div>
 
-  <div formArrayName="skills">
-    <label for="skills">Skills</label>
-    <div *ngFor="let skill of skills.controls; let i=index">
-      <input id="alias-{{ i }}" type="text" class="form-control" [formControlName]="i">
-      <button type="button" class="btn btn-danger btn-sm pull-right" (click)="removeSkill(i)">
-        <span class="glyphicon glyphicon-remove"></span>
-      </button>
-    </div>  
-    <button type="button" class="btn btn-primary" (click)="addSkill()">Add Skill</button>
-  </div>
-   
+    <div class="form-group">
+      <label for="major">Major</label>
+      <input type="text" class="form-control" id="major" placeholder="Enter major (if applicable)" required>
+    </div>
+
+    <div formArrayName="skills">
+      <label for="skills">Skills</label>
+      <div *ngFor="let skill of skills.controls; let i=index">
+        <label for="skill">Skill {{i + 1}}</label>
+        <input type="text" class="form-control" [formControlName]="i">
+        <button type="button" class="btn btn-danger btn-sm pull-right" (click)="removeSkill(i)">
+          <span class="glyphicon glyphicon-remove"></span>
+        </button>
+      </div>
+      <button type="button" class="btn btn-primary" (click)="addSkill()">Add Skill</button>
+    </div>
+
+
+
+    
+    <!-- Conditional div to show user submission + make generation option appear -->
+
+    <div class="confirmation" [hidden]="!submitted">
+
+      <!-- User submission -->
+      <div class="submission">
+        <h2>You submitted the following:</h2>
+        <div class="row">
+          <div class="col-xs-3">Name:</div>
+          <div class="col-xs-9">{{ userForm.value }}</div>
+        </div>
+        <div class="row">
+          <div class="col-xs-3">Status:</div>
+          <div class="col-xs-9">{{ userForm.value }}</div>
+        </div>
+        <div class="row">
+          <div class="col-xs-3">Major:</div>
+          <div class="col-xs-9">{{ userForm.value }}</div>
+        </div>
+        <br>
+        <button type="button" class="btn btn-primary" (click)="submitted=false">Edit</button>
+      </div>
+    </div>
+
+  <!-- userForm ends here -->
+
+  <!-- experience form starts here -->
+  <fieldset formGroupName="experienceForm">
+    <button type="button" class="btn btn-primary mb-2" (click)="addExperience()">Add Experience</button>
+
+    <section class="container border mb-4 p-3" formArrayName="experiences"
+        *ngFor="let experience of experienceControls; let i = index;">
+        <div [formGroupName]="i">
+            <div class="row">
+                <div class="col-6">
+                    <h4>Experience {{i + 1}}</h4>
+                </div>
+                <div class="col-6 text-right">
+                    <button type="button" class="btn btn-danger btn-sm" (click)="removeExperience(i)">Remove</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group">
+                        <label>Title</label>
+                        <input type="text" class="form-control" formControlName="title"
+                            placeholder="Job Name" />
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <label>Company Name</label>
+                        <input type="text" class="form-control" formControlName="company" placeholder="Company Name" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group">
+                        <label>Start Date</label>
+                        <input type="text" class="form-control" formControlName="startDate" placeholder="Start Date" />
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <label>End Date (If Applicable)</label>
+                        <input type="text" class="form-control" formControlName="endDate" placeholder="End Date">
+                    </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group">
+                      <label>Description</label>
+                      <input type="text" class="form-control" formControlName="description" placeholder="Description">
+                  </div>
+              </div>
+            </div>
+        </div>
+
+    </section>
+  </fieldset>
+
   <button type="submit" class="btn btn-success" [disabled]="!userForm.valid">
     Submit
   </button>
-  <!-- Conditional div to show user submission + make generation option appear -->
-
-  <div class="confirmation" [hidden]="!submitted">
-
-    <!-- User submission -->
-    <div class="submission">
-      <h2>You submitted the following:</h2>
-      <div class="row">
-        <div class="col-xs-3">Name:</div>
-        <div class="col-xs-9">{{ model.fullName }}</div>
-      </div>
-      <div class="row">
-        <div class="col-xs-3">Status:</div>
-        <div class="col-xs-9">{{ model.studentStatus }}</div>
-      </div>
-      <div class="row">
-        <div class="col-xs-3">Major:</div>
-        <div class="col-xs-9">{{ model.major }}</div>
-      </div>
-      <br>
-      <button type="button" class="btn btn-primary" (click)="submitted=false">Edit</button>
-    </div>
-  </div>
-
-
-
-  <!-- Generation field -->
-
-  <div class="generator">
-    <h1>Generator</h1>
-
-  </div>
 </form>
 
+<!-- <app-experience-form></app-experience-form> -->
 
 <p>{{userForm.value | json}}</p>
