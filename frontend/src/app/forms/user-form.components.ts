@@ -1,5 +1,4 @@
 import { Component, Input, ViewChild, AfterViewInit, OnInit } from '@angular/core';
-import { ExperienceFormComponent } from '../experience-form/experience-form.component';
 import { User } from '../user';
 import { Service } from 'src/app/services/service';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
@@ -20,7 +19,9 @@ export class UserFormComponent {
     ])
 
     public experiences: FormArray;
-    public experienceForm: FormGroup;
+    public experienceForm = this.fb.group({
+        experiences: this.fb.array([this.createExperience()])
+    })
 
     userForm = this.fb.group({
         url: [''],
@@ -31,9 +32,9 @@ export class UserFormComponent {
     })
 
     constructor(private service: Service, private fb: FormBuilder) { 
-        this.experienceForm = this.fb.group({
-            experiences: this.fb.array([this.createExperience()])
-        });
+        // this.experienceForm = this.fb.group({
+        //     experiences: this.fb.array([this.createExperience()])
+        // });
     }
         
     createExperience(): FormGroup {
