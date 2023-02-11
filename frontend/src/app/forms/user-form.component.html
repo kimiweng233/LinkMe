@@ -23,17 +23,27 @@
       required>
   </div>
 
-  <div formArrayName="skills">
-    <label for="skills">Skills</label>
-    <div *ngFor="let skill of skills.controls; let i=index">
-      <label for="skill">Skill {{i + 1}}</label>
-      <input type="text" class="form-control" [formControlName]="i">
-      <button type="button" class="btn btn-danger btn-sm pull-right" (click)="removeSkill(i)">
-        <span class="glyphicon glyphicon-remove"></span>
-      </button>
+ 
+  <div formArrayName="skills" class="container row g-3">
+    <div class="row">
+      <label for="skills">Skills</label>
     </div>
-    <button type="button" class="btn btn-primary" (click)="addSkill()">Add Skill</button>
+    <div *ngFor="let skill of skills.controls; let i=index">
+      <div class="col-sm-9">
+        <label for="skill">Skill {{i + 1}}</label>
+        <input type="text" class="form-control" [formControlName]="i">
+      </div>
+      <div class="col-auto">
+        <button type="button" class="btn btn-danger btn-sm pull-right" (click)="removeSkill(i)">
+          <span class="glyphicon glyphicon-remove"></span>
+        </button>
+      </div>
+    </div>
+    <div class="col-auto">
+      <button type="button" class="btn btn-primary btn-sm" (click)="addSkill()">Add Skill</button>
+    </div>
   </div>
+
 
 
   <button type="submit" class="btn btn-success" [disabled]="!userForm.valid">
@@ -123,5 +133,3 @@
 
   
 </form>
-
-<!-- <app-experience-form></app-experience-form> -->
