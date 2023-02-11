@@ -1,12 +1,18 @@
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny, IsAuthenticated
+
+from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
+from django.contrib.auth.hashers import check_password
+from django.contrib.auth import authenticate, login
+
+from rest_framework.authtoken.models import Token
+from rest_framework import status
+
 from base.models import candidateInfo
 from .serializers import candidateInfoSerializer, UserSerializer
 from base.generate import coverLetterGenerator
-from rest_framework.authtoken.models import Token
-from rest_framework import status
-from django.contrib.auth.models import User
 
 @api_view(['GET'])
 def getData(request):
@@ -38,6 +44,11 @@ def getProfileFromUserAccount(email, url):
     profile["experiences"] = userProfile.experiences
     return profile
 
+@api_view(['GET'])
+def getCandidateInfo(request, id):
+    userProfile = User.objects.get(id=id).profile
+    serializer = candidateInfoSerializer(userProfile, many=False)
+    return Response(serializer.data)  
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
@@ -58,7 +69,7 @@ def loginUser(request):
     email = request.data['email']
     password = request.data['password']
     try:
-        Account = User.objects.get(email=email1)
+        Account = User.objects.get(email=email)
     except BaseException as e:
         raise ValidationError({"400": f'{str(e)}'})
     token = Token.objects.get_or_create(user=Account)[0].key
@@ -67,9 +78,10 @@ def loginUser(request):
     if Account:
         if Account.is_active:
             login(request, Account)
-            data = {}
-            data["message"] = "user logged in"
-            return Response({"data": data, "token": token})
+            serializer = UserSerializer(Account, many=False)
+            json = serializer.data
+            json["token"] = token
+            return Response(json, status=status.HTTP_200_OK)
         else:
             raise ValidationError({"400": f'Account not active'})
     else:

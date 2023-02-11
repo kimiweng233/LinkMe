@@ -1,0 +1,13 @@
+<div>
+    <form #signup="ngForm" (ngSubmit)="submit(signup.value)">
+         <div class = "form-group">
+             <label>Email or Username</label><br>
+             <input required minlength="1" type="text" name="email" class="form-contorl" ngModel>
+         </div>
+         <div class = "form-group">
+             <label for="password">Password</label><br>
+             <input type="text" name="password" class="form-contorl" ngModel>
+         </div>
+         <button type="submit">Login</button>
+    </form> 
+ </div>

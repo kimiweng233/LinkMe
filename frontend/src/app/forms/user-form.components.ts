@@ -1,9 +1,7 @@
-import { Component, Input } from '@angular/core';
-import { User } from '../user';
+import { Component, Input, ViewChild, AfterViewInit, OnInit } from '@angular/core';
 import { Service } from 'src/app/services/service';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { Validators } from '@angular/forms';
-
 
 @Component({
     selector: 'app-user-form',
@@ -12,29 +10,55 @@ import { Validators } from '@angular/forms';
 })
 
 export class UserFormComponent {
+    submitted = false;
     studentStatuses = ['Freshman', 'Sophomore', 'Junior', 'Senior', 'Graduate'];
 
     skillForm = this.fb.array([
         this.fb.control('')
     ])
 
+    public experiences: FormArray;
     public experienceForm: FormGroup;
 
     userForm = this.fb.group({
+        url: [''],
         fullName: ['', Validators.required],
         gradeLevel: [''],
         major: [''],
-        skills: this.skillForm,
+        skills: this.skillForm
     })
 
+    constructor(private service: Service, private fb: FormBuilder) { 
+        this.experienceForm = this.fb.group({
+            experiences: this.fb.array([this.createExperience()])
+        });
+    }
+        
+    createExperience(): FormGroup {
+        return this.fb.group({
+            title: '',
+            company: '',
+            startDate: '',
+            endDate: '',
+            description: '',
+        });
+      }
     
-    constructor(private service: Service, private fb: FormBuilder) { }
+      get experienceControls() {
+        return this.experienceForm.get('experiences')['controls'];
+      }
     
+      addExperience(): void {
+        this.experiences = this.experienceForm.get('experiences') as FormArray;
+        this.experiences.push(this.createExperience());
+      }
     
+      removeExperience(i: number): void {
+        this.experiences.removeAt(i);
+      }
     // name, student status, major, skills, experience
-    model = new User('', '', '', {}, {});
     
-    submitted = false;
+    
 
     get userFormData() {
         return this.userForm as FormGroup;
@@ -42,6 +66,7 @@ export class UserFormComponent {
     get skills(): FormArray {
         return this.userForm.get('skills') as FormArray;
     }
+    
     addSkill() {
         this.skills.push(this.fb.control(''));
     }
@@ -51,11 +76,21 @@ export class UserFormComponent {
     onSubmit() { 
         this.submitted = true; 
         console.log("Made it here");
-        const returnData = {
-            "url": "https://www.linkedin.com/jobs/search/?currentJobId=3259609035&f_JT=I&keywords=software%20engineer%20intern",
-            "name": this.model.fullName,
-            "gradeLevel": this.model.studentStatus,
-            "major": this.model.major,
+        // let experienceData = this.experienceForm.getRawValue();
+        // let userData = this.userForm.getRawValue();
+        // const returnData = {
+        //     "url": userData.url,
+        //     "name": userData.fullName,
+        //     "gradeLevel": userData.gradeLevel,
+        //     "major": userData.major,
+        //     "skills": userData.skills,
+        //     "experiences": experienceData
+        // }
+        const testData = {
+            "url": "https://www.linkedin.com/jobs/search/?currentJobId=3339978993&f_JT=I&keywords=software%20engineer%20intern",
+            "name": "Kimi Weng",
+            "gradeLevel": "Sophomore",
+            "major": "Computer Science",
             "skills": {
                 "1": "C++",
                 "2": "Python",
@@ -86,7 +121,7 @@ export class UserFormComponent {
             }
         }
         // console.warn(this.userForm.value);
-        this.service.uploadCandidateInfo(returnData).subscribe(
+        this.service.uploadCandidateInfo(testData).subscribe(
             response => {
                 console.log(response);
                 this.submitted = true;
@@ -95,5 +130,9 @@ export class UserFormComponent {
                 console.log(error);
             }
         )
+    }
+
+    changeBool(val: boolean) {
+        val = !val;
     }
 }
