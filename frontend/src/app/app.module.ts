@@ -13,6 +13,7 @@ import { ErrorComponent } from './error/error.component';
 import { LoginComponent } from './login/login.component';
 import { ProfileComponent } from './profile/profile.component';
 import { TokenInterceptor } from "./token.interceptor";
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 const appRoute: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -32,6 +33,7 @@ const appRoute: Routes = [
     HttpClientModule,
     ReactiveFormsModule,
     RouterModule.forRoot(appRoute),
+    FontAwesomeModule,
   ],
   declarations: [
     AppComponent,
