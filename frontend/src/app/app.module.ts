@@ -34,6 +34,7 @@ const appRoute: Routes = [
     ReactiveFormsModule,
     RouterModule.forRoot(appRoute),
     FontAwesomeModule,
+    RouterModule,
   ],
   declarations: [
     AppComponent,
