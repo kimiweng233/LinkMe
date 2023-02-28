@@ -23,7 +23,7 @@ export class UserFormComponent implements OnInit {
     })
 
     userForm = this.fb.group({
-        url: ['', Validators.required],
+        url: [''],
         fullName: ['', Validators.required],
         gradeLevel: [''],
         major: [''],
@@ -40,6 +40,7 @@ export class UserFormComponent implements OnInit {
         return this.fb.group({
             title: '',
             company: '',
+            onGoing: '',
             startDate: '',
             endDate: '',
             description: '',
@@ -78,6 +79,12 @@ export class UserFormComponent implements OnInit {
         let exp = experienceData.experiences;
         let experienceObj = {};
         for (let i = 0; i < exp.length; i++) {
+            if (exp.at(i)['endDate'] == '') {
+                exp.at(i)['onGoing'] = true;
+            }
+            else {
+                exp.at(i)['onGoing'] = false;
+            }
             experienceObj[i] = exp.at(i);
         }
         let userData = this.userForm.getRawValue();

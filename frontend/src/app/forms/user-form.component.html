@@ -1,122 +1,129 @@
 <!-- <p>{{userForm.value | json}}</p>
 <p>{{experiences.value | json }}</p> -->
-<div class="container">
-  <form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="col-sm-5">
+<div class="container-fluid">
+  <div class="row equal" [hidden]="submitted">
 
-    <!-- userForm starts here -->
-    <h1>User Information</h1>
+    <div class="col-md-4">
+      <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
 
-    <div class="form-group">
-      <label for="url">Job Posting URL</label>
-      <input type="text" class="form-control" id="url" placeholder="URL for LinkedIn Job Posting" formControlName="url">
-    </div>
+        <!-- userForm starts here -->
+        <h1>User Information</h1>
 
-    <div class="form-group">
-      <label for="fullName">Full Name</label>
-      <input type="text" class="form-control" id="fullName" placeholder="Enter full name" formControlName="fullName">
-    </div>
+        <button type="submit" class="btn btn-success mb-4" [disabled]="!userForm.valid">
+          Submit
+        </button>
 
-    <div class="form-group">
-      <label for="gradeLevel">Grade Level</label>
-      <select class="form-control" id="gradeLevel" formControlName="gradeLevel" required>
-        <option *ngFor="let status of studentStatuses" [value]="status">{{status}}</option>
-      </select>
-    </div>
-
-    <div class="form-group">
-      <label for="major">Major</label>
-      <input type="text" class="form-control" id="major" placeholder="Enter major (if applicable)"
-        formControlName="major" required>
-    </div>
-
-    <div>
-      <button type="button" class="btn btn-primary btn-sm" (click)="addSkill()">Add Skill</button>
-    </div>
-    <div formArrayName="skills">
-      <div class="row">
-        <label for="skills">Skills</label>
-      </div>
-        <div *ngFor="let skill of skills.controls; let i=index">
-          <div class="wrapper">
-            <label for="skill">Skill {{i + 1}}</label>
-            <input type="text" class="form-control" [formControlName]="i">
-            <button type="button" class="btn btn-danger" (click)="removeSkill(i)">Remove</button>
-              <!-- <span class="glyphicon glyphicon-remove"></span> -->
-            
+        <div class="col">
+          <div class="form-group">
+            <label for="url">Job Posting URL</label>
+            <input type="text" class="form-control" id="url" placeholder="Enter LinkedIn Job Posting URL"
+              formControlName="url">
           </div>
         </div>
 
-      
+        <div class="form-group">
+          <label for="fullName">Full Name</label>
+          <input type="text" class="form-control" id="fullName" placeholder="Enter full name"
+            formControlName="fullName">
+        </div>
+
+        <div class="form-group">
+          <label for="gradeLevel">Grade Level</label>
+          <select class="form-control" id="gradeLevel" formControlName="gradeLevel" required>
+            <option *ngFor="let status of studentStatuses" [value]="status">{{status}}</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="major">Major</label>
+          <input type="text" class="form-control" id="major" placeholder="Enter major (if applicable)"
+            formControlName="major" required>
+        </div>
+        <div formArrayName="skills">
+          <div>
+            <label for="skills">Skills</label>
+          </div>
+          <div>
+            <button type="button" class="btn btn-primary btn-sm mb-3" (click)="addSkill()">Add Skill</button>
+          </div>
+          <div class="row" *ngFor="let skill of skills.controls; let i=index">
+
+            <div class="col-sm-5 mb-4">
+              <input type="text" class="form-control mb-6" [formControlName]="i" placeholder="i.e. Python, C, etc.">
+            </div>
+
+            <div class="col-auto">
+              <button type="button" class="btn btn-danger" (click)="removeSkill(i)">
+                <span class="glyphicon glyphicon-remove"></span>
+              </button>
+            </div>
+
+          </div>
+        </div>
+      </form>
+      <!-- userForm ends here-->
+    </div>
+    <!-- experience form starts here -->
+    <div class="col-md-2 pt-5">
+      <form [formGroup]="experienceForm">
+        <button type="button" class="btn btn-primary mb-2" (click)="addExperience()">Add Experience</button>
+
+        <section class="container border mb-4 p-3" formArrayName="experiences"
+          *ngFor="let experience of experienceControls; let i = index;">
+          <div [formGroupName]="i">
+            <div class="row">
+              <div class="col-6">
+                <h4>Experience {{i + 1}}</h4>
+              </div>
+              <div class="col-6 text-right">
+                <button type="button" class="btn btn-danger btn-sm" (click)="removeExperience(i)">Remove</button>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <div class="form-group">
+                  <label>Title</label>
+                  <input type="text" class="form-control" formControlName="title" placeholder="Job Name" />
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="form-group">
+                  <label>Company Name</label>
+                  <input type="text" class="form-control" formControlName="company" placeholder="Company Name" />
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-6">
+                <div class="form-group">
+                  <label>Start Date</label>
+                  <input type="text" class="form-control" formControlName="startDate" placeholder="Month Year" />
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="form-group">
+                  <label>End Date (If Applicable)</label>
+                  <input type="text" class="form-control" formControlName="endDate" placeholder="Month Year">
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="form-group">
+                  <label>Description</label>
+                  <input type="text" class="form-control" formControlName="description" placeholder="Description">
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </section>
+      </form>
     </div>
 
-    <button type="submit" class="btn btn-success" [disabled]="!userForm.valid">
-      Submit
-    </button>
+  </div>
+  <!-- Conditional div to show user submission + make generation option appear -->
 
-  </form>
-  <!-- userForm ends here-->
-
-  <!-- experience form starts here -->
-  <form [formGroup]="experienceForm" class="col-sm-5">
-    <button type="button" class="btn btn-primary mb-2" (click)="addExperience()">Add Experience</button>
-
-    <section class="container border mb-4 p-3" formArrayName="experiences"
-      *ngFor="let experience of experienceControls; let i = index;">
-      <div [formGroupName]="i">
-        <div class="row">
-          <div class="col-6">
-            <h4>Experience {{i + 1}}</h4>
-          </div>
-          <div class="col-6 text-right">
-            <button type="button" class="btn btn-danger btn-sm" (click)="removeExperience(i)">Remove</button>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-6">
-            <div class="form-group">
-              <label>Title</label>
-              <input type="text" class="form-control" formControlName="title" placeholder="Job Name" />
-            </div>
-          </div>
-          <div class="col-6">
-            <div class="form-group">
-              <label>Company Name</label>
-              <input type="text" class="form-control" formControlName="company" placeholder="Company Name" />
-            </div>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col-6">
-            <div class="form-group">
-              <label>Start Date</label>
-              <input type="text" class="form-control" formControlName="startDate" placeholder="mm/dd/yyyy" />
-            </div>
-          </div>
-          <div class="col-6">
-            <div class="form-group">
-              <label>End Date (If Applicable)</label>
-              <input type="text" class="form-control" formControlName="endDate" placeholder="mm/dd/yyyy">
-            </div>
-          </div>
-          <div class="col-6">
-            <div class="form-group">
-              <label>Description</label>
-              <input type="text" class="form-control" formControlName="description" placeholder="Description">
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </section>
-
-    <!-- Conditional div to show user submission + make generation option appear -->
-
-    <div class="confirmation" [hidden]="!submitted">
-      <span>Success! Information Received.</span>
-      <!-- input url here -->
-
-    </div>
-
-  </form>
+  <div class="confirmation" [hidden]="!submitted">
+    <span>Success! Information Received.</span>
+  </div>
 </div>
