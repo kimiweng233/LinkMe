@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Service } from 'src/app/services/service';
 import { FormArray, FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { Validators } from '@angular/forms';
+import Typewriter from 't-writer.js';
 
 @Component({
     selector: 'app-user-form',
@@ -11,6 +12,8 @@ import { Validators } from '@angular/forms';
 
 export class UserFormComponent implements OnInit {
     submitted = false;
+    coverLetter = "";
+    readyforGen = false;
     studentStatuses = ['Freshman', 'Sophomore', 'Junior', 'Senior', 'Graduated'];
 
     skillForm = this.fb.array([
@@ -31,6 +34,7 @@ export class UserFormComponent implements OnInit {
     })
 
     ngOnInit(): void {
+        
         
     }
 
@@ -140,11 +144,31 @@ export class UserFormComponent implements OnInit {
         this.service.uploadCandidateInfo(returnData).subscribe(
             response => {
                 console.log(response);
+                this.coverLetter = response['data'];
                 this.submitted = true;
+                this.readyforGen = true;
             },
             error => {
                 console.log(error);
             }
         )
+    }
+
+    generate() {
+        let target = document.querySelector('.cl');
+        let writer = new Typewriter(target, {
+            loop: false,
+            typeColor: 'black',
+            typeSpeed: 30,
+            cursorColor: 'black',
+            blinkSpeed: 400,
+
+        });
+        writer
+            .addCursor()
+            .type(this.coverLetter)
+            .rest(500)
+            .removeCursor()
+            .start();
     }
 }

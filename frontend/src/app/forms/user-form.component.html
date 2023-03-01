@@ -124,6 +124,14 @@
   <!-- Conditional div to show user submission + make generation option appear -->
 
   <div class="confirmation" [hidden]="!submitted">
-    <span>Success! Information Received.</span>
+    <div class="ready" [hidden]="!readyforGen">
+      <span>Success! Ready to generate.</span>
+      <button type="button" class="btn btn-primary" (click)="generate()">Generate</button>
+      <div class="container">
+        <span class="cl"></span>
+        <!-- <p>{{coverLetter}}</p> -->
+      </div>
+    </div>
   </div>
-</div>
+  
+  </div>
