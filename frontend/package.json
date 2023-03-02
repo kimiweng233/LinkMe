@@ -24,6 +24,7 @@
     "@fortawesome/free-regular-svg-icons": "^6.2.1",
     "@fortawesome/free-solid-svg-icons": "^6.2.1",
     "font-awesome": "^4.7.0",
+    "mdb-angular-ui-kit": "^4.0.0",
     "rxjs": "~7.8.0",
     "t-writer.js": "^1.0.4",
     "tslib": "^2.3.0",
