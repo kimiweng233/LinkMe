@@ -14,6 +14,8 @@ export class UserFormComponent implements OnInit {
     submitted = false;
     coverLetter = "";
     readyforGen = false;
+    generated = false;
+    skipTyping = false;
     studentStatuses = ['Freshman', 'Sophomore', 'Junior', 'Senior', 'Graduated'];
 
     skillForm = this.fb.array([
@@ -155,11 +157,12 @@ export class UserFormComponent implements OnInit {
     }
 
     generate() {
+        this.generated = true;
         let target = document.querySelector('.cl');
         let writer = new Typewriter(target, {
             loop: false,
             typeColor: 'black',
-            typeSpeed: 30,
+            typeSpeed: 15,
             cursorColor: 'black',
             blinkSpeed: 400,
 
@@ -170,5 +173,9 @@ export class UserFormComponent implements OnInit {
             .rest(500)
             .removeCursor()
             .start();
+    }
+    
+    skipGen() {
+        this.skipTyping = true;
     }
 }

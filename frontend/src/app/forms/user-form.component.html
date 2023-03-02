@@ -1,5 +1,6 @@
 <!-- <p>{{userForm.value | json}}</p>
 <p>{{experiences.value | json }}</p> -->
+
 <div class="container-fluid">
   <div class="row equal" [hidden]="submitted">
 
@@ -124,14 +125,20 @@
   <!-- Conditional div to show user submission + make generation option appear -->
 
   <div class="confirmation" [hidden]="!submitted">
-    <div class="ready" [hidden]="!readyforGen">
-      <span>Success! Ready to generate.</span>
-      <button type="button" class="btn btn-primary" (click)="generate()">Generate</button>
-      <div class="container">
-        <span class="cl"></span>
-        <!-- <p>{{coverLetter}}</p> -->
+    <mat-spinner [hidden]="readyforGen" color="warn"></mat-spinner>
+    <div class="col" [hidden]="!readyforGen">
+      <div class="row">
+        <span>Success! Ready to generate.</span>
+      </div>
+      <div class="row">
+        <button type="button" class="btn btn-primary" (click)="generate()" [hidden]="generated">Generate</button>
+        <button type="button" class="btn btn-primary" (click)="skipGen()">Skip</button>
+      </div>
+      <div class="container border">
+        <span class="cl" [hidden]="skipTyping"></span>
+        <span [hidden]="!skipTyping">{{coverLetter}}</span>
       </div>
     </div>
   </div>
-  
-  </div>
+
+</div>

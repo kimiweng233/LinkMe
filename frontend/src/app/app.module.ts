@@ -14,7 +14,8 @@ import { LoginComponent } from './login/login.component';
 import { ProfileComponent } from './profile/profile.component';
 import { TokenInterceptor } from "./token.interceptor";
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { MdbDropdownModule } from 'mdb-angular-ui-kit/dropdown'
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 const appRoute: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -36,7 +37,8 @@ const appRoute: Routes = [
     RouterModule.forRoot(appRoute),
     FontAwesomeModule,
     RouterModule,
-    MdbDropdownModule,
+    BrowserAnimationsModule,
+    MatProgressSpinnerModule,
   ],
   declarations: [
     AppComponent,
