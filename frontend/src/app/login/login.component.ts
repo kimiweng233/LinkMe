@@ -9,7 +9,9 @@ import { Service } from 'src/app/services/service';
 })
 export class LoginComponent {
     constructor(private service: Service, private router: Router) {
-
+        if (localStorage.getItem('userData')) {
+            this.router.navigateByUrl('/home');
+        }
     }
 
     submit(data: any) {

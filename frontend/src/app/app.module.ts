@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { Routes, RouterModule } from '@angular/router';
+import { AuthGuard } from "./auth.guard";
 
 import { AppComponent } from './app.component';
 import { UserFormComponent} from './forms/user-form.components';
@@ -14,6 +15,7 @@ import { LoginComponent } from './login/login.component';
 import { ProfileComponent } from './profile/profile.component';
 import { TokenInterceptor } from "./token.interceptor";
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { NavbarComponent } from './navbar/navbar.component';
 
 const appRoute: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -21,7 +23,7 @@ const appRoute: Routes = [
   {path: 'generate', component: UserFormComponent},
   {path: 'signup', component: SignupFormComponent},
   {path: 'login', component: LoginComponent},
-  {path: 'profile/:id', component: ProfileComponent},
+  {path: 'profile/:id', component: ProfileComponent, canActivate: [AuthGuard]},
   {path: '**', component: ErrorComponent},
 ]
 
@@ -44,6 +46,7 @@ const appRoute: Routes = [
     ErrorComponent,
     LoginComponent,
     ProfileComponent,
+    NavbarComponent,
    ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },

@@ -11,7 +11,9 @@ import { Service } from 'src/app/services/service';
 export class SignupFormComponent {
 
     constructor(private service: Service, private router: Router) {
-
+        if (localStorage.getItem('userData')) {
+            this.router.navigateByUrl('/home');
+        }
     }
 
     submit(data: any) {
@@ -19,7 +21,6 @@ export class SignupFormComponent {
         delete data.confirmPassword
         this.service.createUserProfile(data).subscribe(
             response => {
-                console.log(response);
                 this.router.navigateByUrl('/login');
             },
             error => {

@@ -19,13 +19,20 @@ export class ProfileComponent {
               console.log(response);
             },
             error => {
-                console.log(error);
+              console.log(error);
             }
         );
     }
 
     submit() {
-        this.service.logoutUser();
+        this.service.logoutUser().subscribe(
+          response => {
+            localStorage.removeItem('userData');
+          },
+          error => {
+            console.log(error);
+          }
+        );
     }
 
 

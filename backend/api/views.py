@@ -5,7 +5,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.contrib.auth.hashers import check_password
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 
 from rest_framework.authtoken.models import Token
 from rest_framework import status
@@ -45,6 +45,7 @@ def getProfileFromUserAccount(email, url):
     return profile
 
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def getCandidateInfo(request, id):
     userProfile = User.objects.get(id=id).profile
     serializer = candidateInfoSerializer(userProfile, many=False)
@@ -87,9 +88,14 @@ def loginUser(request):
     else:
             raise ValidationError({"400": f'Account doesnt exist'})
 
-@api_view(["GET"])
+@api_view(["POST"])
 @permission_classes([IsAuthenticated])
 def logoutUser(request):
     request.user.auth_token.delete()
     logout(request)
     return Response('User Logged out successfully')
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def getAuthUserID(request):
+    return Response({"ID": request.user.id})
