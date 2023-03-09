@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from "@angular/router";
 import { Service } from 'src/app/services/service';
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-profile',
@@ -8,7 +9,7 @@ import { Service } from 'src/app/services/service';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent {
-    constructor(private service: Service, private activatedRoute: ActivatedRoute) {
+    constructor(private service: Service, private activatedRoute: ActivatedRoute, private router: Router) {
 
     }
 
@@ -28,6 +29,7 @@ export class ProfileComponent {
         this.service.logoutUser().subscribe(
           response => {
             localStorage.removeItem('userData');
+            this.router.navigateByUrl(`/home`);
           },
           error => {
             console.log(error);

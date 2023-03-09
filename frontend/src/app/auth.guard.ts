@@ -3,6 +3,7 @@ import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot, UrlTree, Rout
 import { Observable } from 'rxjs';
 import { Service } from 'src/app/services/service';
 import { map } from 'rxjs/operators';
+import { faSleigh } from '@fortawesome/free-solid-svg-icons';
 
 @Injectable({
   providedIn: 'root'
@@ -15,15 +16,19 @@ export class AuthGuard implements CanActivate {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-      let isMatchingUser: boolean;
       this.service.verifyCurrentUserID(route.params['id']).subscribe(
         response => {
           if (!response) {
             this.router.navigateByUrl('/home');
+            return false;
           }
-          isMatchingUser = response;
+          return true;
+        },
+        error => {
+          this.router.navigateByUrl('/home');
+          return false;
         }
       )
-      return isMatchingUser;
+      return true;
   }
 }

@@ -1,12 +1,16 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 const baseUrl = 'http://localhost:8000/api';
 
 export interface IDResponse {
     ID: string
+}
+
+export interface AuthStatusResponse {
+    status: boolean
 }
 
 @Injectable({
@@ -37,14 +41,20 @@ export class Service {
         return this.http.post(`${baseUrl}/logoutUser/`, {});
     }
 
-    getAuthUserID() {
-        return this.http.get<IDResponse>(`${baseUrl}/getAuthUserID/`, {})
+    getUserAuthStatus() {
+        return this.http.get<AuthStatusResponse>(`${baseUrl}/getUserAuthStatus/`);
+    }
+
+    getUserID() {
+        return this.http.get<IDResponse>(`${baseUrl}/getAuthUserID/`);
     }
 
     verifyCurrentUserID(id: number): Observable<boolean> {
+        if (!localStorage.getItem('userData')) {
+            return of(false);
+        }
         return this.http.get<IDResponse>(`${baseUrl}/getAuthUserID/`).pipe(
             map((response: IDResponse) => {
-                    console.log(response);
                     if (id == parseInt(response.ID)) {
                         return true;
                     } else {

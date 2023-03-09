@@ -6,6 +6,7 @@ urlpatterns = [
     path('createUser/', views.createUser, name='createUser'),
     path('loginUser/', views.loginUser, name='loginUser'),
     path('logoutUser/', views.logoutUser, name='logoutUser'),
+    path('getUserAuthStatus/', views.getUserAuthStatus),
     path('getCandidateInfo/<str:id>/', views.getCandidateInfo, name='getCandidateInfo'),
     path('getAuthUserID/', views.getAuthUserID, name='getAuthUserID'),
     path('generateCoverLetter/', views.generateCoverLetter),

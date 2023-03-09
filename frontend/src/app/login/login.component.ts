@@ -9,9 +9,17 @@ import { Service } from 'src/app/services/service';
 })
 export class LoginComponent {
     constructor(private service: Service, private router: Router) {
-        if (localStorage.getItem('userData')) {
-            this.router.navigateByUrl('/home');
-        }
+        
+    }
+
+    ngOnInit() {
+        this.service.getUserAuthStatus().subscribe(
+            response => {
+                if (response.status) {
+                    this.router.navigateByUrl('/home');
+                }
+            }
+        )
     }
 
     submit(data: any) {

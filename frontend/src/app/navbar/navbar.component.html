@@ -1,1 +1,15 @@
-<p>navbar works!</p>
+<div class="container-fluid">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/home">Home</a></li>
+            <li class="breadcrumb-item"><a href="/generate">Generate Cover Letter</a></li>
+            <li *ngIf="!isLoggedIn" class="breadcrumb-item"><a href="/signup">Sign Up</a></li>
+            <li *ngIf="!isLoggedIn" class="breadcrumb-item"><a href="/login">Login</a></li>
+            <li *ngIf="isLoggedIn" class="breadcrumb-item">
+                <a href="/profile/{{currUserID}}">
+                    <i class="fa fa-user"></i>
+                </a>
+            </li>
+        </ol>
+    </nav>
+</div>

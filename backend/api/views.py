@@ -99,3 +99,8 @@ def logoutUser(request):
 @permission_classes([IsAuthenticated])
 def getAuthUserID(request):
     return Response({"ID": request.user.id})
+
+@api_view(["GET"])
+@permission_classes([AllowAny])
+def getUserAuthStatus(request):
+    return Response({"status": request.user.is_authenticated})
