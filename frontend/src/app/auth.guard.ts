@@ -2,8 +2,6 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Service } from 'src/app/services/service';
-import { map } from 'rxjs/operators';
-import { faSleigh } from '@fortawesome/free-solid-svg-icons';
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +20,7 @@ export class AuthGuard implements CanActivate {
             this.router.navigateByUrl('/home');
             return false;
           }
+          this.service.giveLoadingPermisison();
           return true;
         },
         error => {

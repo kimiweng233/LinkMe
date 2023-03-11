@@ -1,5 +1,35 @@
 <div>
-    <p>profile</p>
+    <div *ngIf="profile">
+        <form>
+            <label>Name</label>
+            <input value="{{profile.name}}">
+            <br>
+    
+            <label>School Year</label>
+            <input value="{{profile.schoolYear}}">
+            <br>
+    
+            <label>Major</label>
+            <input value="{{profile.major}}">
+            <br>
+    
+            <label>Skills</label><br>
+            <div *ngFor="let skill of profile.skills | keyvalue">
+                <input  value="{{skill.value}}">
+            </div>
+
+            <label>Experiences</label><br>
+            <div *ngFor="let experience of profile.experiences | appProperties">
+                <div *ngFor="let attr of profile.experiences[experience] | appProperties">
+                    <label>{{attr}}</label>
+                    <input *ngIf="attr != 'description'; else textBox" value="{{profile.experiences[experience][attr]}}">
+                    <ng-template #textBox>
+                        <textarea>{{profile.experiences[experience][attr]}}</textarea>
+                    </ng-template>
+                </div>
+            </div>
+        </form>
+    </div>
 
     <form (ngSubmit)="submit()">
         <button type="submit">logout</button>

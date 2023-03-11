@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ActivatedRoute } from "@angular/router";
 import { Service } from 'src/app/services/service';
 import { Router } from "@angular/router";
+import { Profile } from 'src/app/services/service';
 
 @Component({
   selector: 'app-profile',
@@ -9,20 +10,27 @@ import { Router } from "@angular/router";
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent {
-    constructor(private service: Service, private activatedRoute: ActivatedRoute, private router: Router) {
+    profile: Profile;
 
+    constructor(private service: Service, private activatedRoute: ActivatedRoute, private router: Router) {
+        
     }
 
     ngOnInit(): void {
-        const userId = this.activatedRoute.snapshot.paramMap.get('id');
-        this.service.getCandidateInto(userId).subscribe(
-            response => {
-              console.log(response);
-            },
-            error => {
-              console.log(error);
-            }
-        );
+      this.service.receiveLoadingPermission().subscribe(
+        response => {
+          const userId = this.activatedRoute.snapshot.paramMap.get('id');
+          this.service.getCandidateInto(userId).subscribe(
+              response => {
+                this.profile = response;
+                console.log(this.profile);
+              },
+              error => {
+                console.log(error);
+              }
+          );
+        }
+      )
     }
 
     submit() {
@@ -36,6 +44,4 @@ export class ProfileComponent {
           }
         );
     }
-
-
 }
