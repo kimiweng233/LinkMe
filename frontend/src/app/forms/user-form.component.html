@@ -2,9 +2,9 @@
 <p>{{experiences.value | json }}</p> -->
 
 <div class="container-fluid">
-  <div class="row equal" [hidden]="submitted">
+  <div class="row equal">
 
-    <div class="col-md-4">
+    <div class="col-md-5">
       <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
 
         <!-- userForm starts here -->
@@ -63,13 +63,13 @@
         </div>
       </form>
       <!-- userForm ends here-->
-    </div>
-    <!-- experience form starts here -->
-    <div class="col-md-2 pt-5">
-      <form [formGroup]="experienceForm">
+
+      <!-- experience form starts here -->
+
+      <form [formGroup]="experienceForm" class="">
         <button type="button" class="btn btn-primary mb-2" (click)="addExperience()">Add Experience</button>
 
-        <section class="container border mb-4 p-3" formArrayName="experiences"
+        <section class="border mb-4 p-3" formArrayName="experiences"
           *ngFor="let experience of experienceControls; let i = index;">
           <div [formGroupName]="i">
             <div class="row">
@@ -119,26 +119,35 @@
 
         </section>
       </form>
+
     </div>
 
-  </div>
-  <!-- Conditional div to show user submission + make generation option appear -->
-
-  <div class="confirmation" [hidden]="!submitted">
-    <mat-spinner [hidden]="readyforGen" color="warn"></mat-spinner>
-    <div class="col" [hidden]="!readyforGen">
-      <div class="row">
-        <span>Success! Ready to generate.</span>
-      </div>
-      <div class="row">
-        <button type="button" class="btn btn-primary" (click)="generate()" [hidden]="generated">Generate</button>
-        <button type="button" class="btn btn-primary" (click)="skipGen()">Skip</button>
-      </div>
-      <div class="container border">
-        <span class="cl" [hidden]="skipTyping"></span>
-        <span [hidden]="!skipTyping">{{coverLetter}}</span>
+    <!-- Conditional div to show user submission + make generation option appear -->
+    <div class="col-sm-3">
+      <div class="confirmation">
+        <mat-spinner [hidden]="readyforGen || !submitted" color="warn"></mat-spinner>
+        <div class="col">
+          <div class="row">
+            <span>Success! Ready to generate.</span>
+          </div>
+          <div class="row">
+            <div class="col equal">
+              <div class="row-sm-3">
+                <button type="button" class="btn btn-primary" (click)="generate()"
+                  [disabled]="!readyforGen">Generate</button>
+              </div>
+              <div class="row-auto">
+                <button type="button" class="btn btn-primary" (click)="skipGen()"
+                  [disabled]="!readyforGen">Skip</button>
+              </div>
+            </div>
+          </div>
+          <div class="container">
+            <span class="cl" [hidden]="skipTyping"></span>
+            <span [hidden]="!skipTyping">{{coverLetter}}</span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-
 </div>
