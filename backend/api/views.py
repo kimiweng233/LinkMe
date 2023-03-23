@@ -23,16 +23,17 @@ def getData(request):
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def generateCoverLetter(request):
-    if request.user.is_authenticated:
-        accountJson = getProfileFromUserAccount(request.user.email, request.data["url"])
-        coverLetter = coverLetterGenerator(accountJson)
-    else:
-        coverLetter = coverLetterGenerator(request.data)
+    coverLetter = coverLetterGenerator(request.data)
+    # if request.user.is_authenticated:
+    #     accountJson = getProfileFromUserAccount(request.user.email, request.data["url"])
+    #     coverLetter = coverLetterGenerator(accountJson)
+    # else:
+    #     coverLetter = coverLetterGenerator(request.data)
     return Response({"data":coverLetter})
 
 def getProfileFromUserAccount(email, url):
     try:
-        userProfile = User.objects.get(email=email1).profile
+        userProfile = User.objects.get(email=email).profile
     except BaseException as e:
         raise ValidationError({"400": f'{str(e)}'})
     profile = {}

@@ -26,11 +26,15 @@ def profileOrganizer(data):
 def generatePrompt(profile, url):
     prompt = ""
     jobDescription = jobScraping.getJobDescription(url)
-    prompt += "Given this job posting:\n"
+    prompt += "I want you to act like you are a candidate for a job opening. I will provide you with the job's descriptions and your background information. You will find which skills and background experiences from your background information that will help with the job and write a three paragraph cover letter only talking about how these skills make you a good fit. Do not mention anything extra from the job description.\n\nJob Description:\n\n"
     prompt += (jobDescription + "\n\n")
-    prompt += "and these candidate info:\n"
+    prompt += "Your background:\n\n"
     prompt += (profile + "\n\n")
-    prompt += "generate a cover letter for about 300 words that explains specifically why the candidate is a good fit for the job. Mention to position in the letter"
+    return prompt
+
+def rephrasePrompt(original):
+    prompt = "Rephrase this cover letter:\n\n"
+    promt += original
     return prompt
 
 def feedPrompt(prompt):
@@ -50,4 +54,6 @@ def coverLetterGenerator(data):
     profile = profileOrganizer(data)
     prompt = generatePrompt(profile, data["url"])
     coverLetter = feedPrompt(prompt)
-    return coverLetter
+    rephraseRequest = rephrasePrompt(coverLetter)
+    rephrasedCoverLetter = feedPrompt(rephraseRequest)
+    return rephrasedCoverLetter
