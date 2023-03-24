@@ -13,10 +13,11 @@ import Typewriter from 't-writer.js';
 export class UserFormComponent implements OnInit {
     submitted = false;
     coverLetter = "";
-    readyforGen = localStorage.getItem("personalInfo") !== null;
+    readyforGen = false;
     generated = false;
     skipTyping = false;
     studentStatuses = ['Freshman', 'Sophomore', 'Junior', 'Senior', 'Graduated'];
+    postURL = "";
 
     skillForm = this.fb.array([
         this.fb.control('')
@@ -34,10 +35,23 @@ export class UserFormComponent implements OnInit {
         skills: this.skillForm
     })
 
+    isValidHttpUrl(string) {
+        let url;
+        try {
+          url = new URL(string);
+        } catch (_) {
+          return false;
+        }
+        return url.protocol === "http:" || url.protocol === "https:";
+    }
+
+    onURLInput(event) {
+        this.readyforGen = event.target.value !== "" && this.isValidHttpUrl(event.target.value) && localStorage.getItem("personalInfo") !== null;
+    }
+
     ngOnInit(): void {
         if (localStorage.getItem("personalInfo")) {
             let info = JSON.parse(localStorage.getItem("personalInfo"));
-            console.log(info["skills"]);
             let skillObj = Object.values(info["skills"]);
             let skillArr = [];
             for (let i = 0; i < skillObj.length; i++) {
@@ -64,6 +78,10 @@ export class UserFormComponent implements OnInit {
                 experiences: experienceArr,
             })
         }
+    }
+
+    ngOnChange(): void {
+        
     }
 
     constructor(private service: Service, private fb: FormBuilder) { }
@@ -106,7 +124,6 @@ export class UserFormComponent implements OnInit {
 
     onSubmit() {
         this.submitted = true;
-        console.log("Made it here");
         let experienceData = this.experienceForm.getRawValue();
         let exp = experienceData.experiences;
         let experienceObj = {};
@@ -132,28 +149,24 @@ export class UserFormComponent implements OnInit {
             "skills": skillsObj,
             "experiences": experienceObj,
         }
-        // console.warn(this.userForm.value);
-        console.log(returnData);
         window.localStorage.setItem("personalInfo", JSON.stringify(returnData));
     }
 
     generate() {
-        if (localStorage.getItem("personalInfo") === null) {
-            let experienceData = this.experienceForm.getRawValue();
-            console.log(experienceData);
-            // var personalInfo = localStorage.getItem("personalInfo");
-            // this.service.uploadCandidateInfo(returnData).subscribe(
-            //     response => {
-            //         console.log(response);
-            //         this.coverLetter = response['data'];
-            //         this.submitted = true;
-            //         this.readyforGen = true;
-            //     },
-            //     error => {
-            //         console.log(error);
-            //     }
-            // )
-        }
+        console.log(this.postURL);
+        var personalInfo = JSON.parse(localStorage.getItem("personalInfo"));
+        personalInfo["url"] = this.postURL;
+        this.service.uploadCandidateInfo(personalInfo).subscribe(
+            response => {
+                console.log(response);
+                this.coverLetter = response['data'];
+                this.submitted = true;
+                this.readyforGen = true;
+            },
+            error => {
+                console.log(error);
+            }
+        )
         this.generated = true;
         let target = document.querySelector('.cl');
         let writer = new Typewriter(target, {

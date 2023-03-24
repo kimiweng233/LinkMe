@@ -115,37 +115,41 @@
     </div>
 
     <!-- Conditional div to show user submission + make generation option appear -->
-    <div class="col-sm-3">
-      <div class="confirmation">
-        <mat-spinner [hidden]="readyforGen || !submitted" color="warn"></mat-spinner>
-        <div class="col">
-          <div class="row">
-            <span>Success! Ready to generate.</span>
-          </div>
+    <form>
+      <div class="col-sm-3">
+        <div class="confirmation">
+          <mat-spinner [hidden]="readyforGen || !submitted" color="warn"></mat-spinner>
           <div class="col">
-            <div class="form-group">
-              <label for="url">Job Posting URL</label>
-              <input type="text" class="form-control" id="url" placeholder="Enter LinkedIn Job Posting URL">
+            <div class="row">
+              <span>Success! Ready to generate.</span>
             </div>
-          </div>
-          <div class="row">
-            <div class="col equal">
-              <div class="row-sm-3">
-                <button type="button" class="btn btn-primary" (click)="generate()"
-                  [disabled]="!readyforGen">Generate</button>
-              </div>
-              <div class="row-auto">
-                <button type="button" class="btn btn-primary" (click)="skipGen()"
-                  [disabled]="!readyforGen">Skip</button>
+            <div class="col">
+              <div class="form-group">
+                <label for="url">Job Posting URL</label>
+                <input type="text" class="form-control" id="url" placeholder="Enter LinkedIn Job Posting URL"
+                [(ngModel)]="postURL" name="something" (input)="onURLInput($event)">
               </div>
             </div>
-          </div>
-          <div class="container">
-            <span class="cl" [hidden]="skipTyping"></span>
-            <span [hidden]="!skipTyping">{{coverLetter}}</span>
+            <div class="row">
+              <div class="col equal">
+                <div class="row-sm-3">
+                  <button type="button" class="btn btn-primary" (click)="generate()"
+                    [disabled]="!readyforGen">Generate</button>
+                </div>
+                <div class="row-auto">
+                  <button type="button" class="btn btn-primary" (click)="skipGen()"
+                    [disabled]="!readyforGen">Skip</button>
+                </div>
+              </div>
+            </div>
+            <div class="container">
+              <span class="cl" [hidden]="skipTyping"></span>
+              <span [hidden]="!skipTyping">{{coverLetter}}</span>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </form>
+    
   </div>
 </div>
