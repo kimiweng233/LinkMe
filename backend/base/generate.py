@@ -34,7 +34,7 @@ def generatePrompt(profile, url):
 
 def rephrasePrompt(original):
     prompt = "Rephrase this cover letter:\n\n"
-    promt += original
+    prompt += original
     return prompt
 
 def feedPrompt(prompt):
