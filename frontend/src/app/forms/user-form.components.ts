@@ -28,7 +28,6 @@ export class UserFormComponent implements OnInit {
     })
 
     userForm = this.fb.group({
-        url: [''],
         fullName: ['', Validators.required],
         gradeLevel: [''],
         major: [''],
@@ -36,8 +35,19 @@ export class UserFormComponent implements OnInit {
     })
 
     ngOnInit(): void {
-        
-        
+        if (localStorage.getItem("personalInfo")) {
+            let info = JSON.parse(localStorage.getItem("personalInfo"));
+            console.log(info["name"]);
+            this.userForm.setValue({
+                fullName: info["name"],
+                gradeLevel: info["gradeLevel"],
+                major: info["major"],
+                skills: info["skills"],
+            });
+            this.experienceForm.setValue({
+                experiences: info["experiences"],
+            })
+        }
     }
 
     constructor(private service: Service, private fb: FormBuilder) {}
@@ -100,7 +110,6 @@ export class UserFormComponent implements OnInit {
             skillsObj[i] = userSkills.at(i);
         }
         const returnData = {
-            "url": userData.url,
             "name": userData.fullName,
             "gradeLevel": userData.gradeLevel,
             "major": userData.major,
@@ -110,20 +119,25 @@ export class UserFormComponent implements OnInit {
         // console.warn(this.userForm.value);
         console.log(returnData);
         window.localStorage.setItem("personalInfo", JSON.stringify(returnData));
-        this.service.uploadCandidateInfo(returnData).subscribe(
-            response => {
-                console.log(response);
-                this.coverLetter = response['data'];
-                this.submitted = true;
-                this.readyforGen = true;
-            },
-            error => {
-                console.log(error);
-            }
-        )
     }
 
     generate() {
+        if (localStorage.getItem("personalInfo") === null) {
+            let experienceData = this.experienceForm.getRawValue();
+            console.log(experienceData);
+            // var personalInfo = localStorage.getItem("personalInfo");
+            // this.service.uploadCandidateInfo(returnData).subscribe(
+            //     response => {
+            //         console.log(response);
+            //         this.coverLetter = response['data'];
+            //         this.submitted = true;
+            //         this.readyforGen = true;
+            //     },
+            //     error => {
+            //         console.log(error);
+            //     }
+            // )
+        }
         this.generated = true;
         let target = document.querySelector('.cl');
         let writer = new Typewriter(target, {
