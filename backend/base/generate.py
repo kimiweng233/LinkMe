@@ -5,6 +5,7 @@ from . import jobScraping
 
 load_dotenv()
 OPENAI_KEY = os.getenv('OPENAI_KEY')
+GPT_MODEL = "gpt-3.5-turbo" 
 
 def profileOrganizer(data):
     profile = ""
@@ -30,25 +31,23 @@ def generatePrompt(profile, url):
     prompt += (jobDescription + "\n\n")
     prompt += "Your background:\n\n"
     prompt += (profile + "\n\n")
-    return prompt
+    conversation = [{"role": "system", "content": prompt}]
+    return conversation
 
 def rephrasePrompt(original):
     prompt = "Rephrase this cover letter:\n\n"
     prompt += original
-    return prompt
+    conversation = [{"role": "system", "content": prompt}]
+    return conversation
 
 def feedPrompt(prompt):
     openai.api_key = OPENAI_KEY
-    model_engine = "text-davinci-003" 
-    completion = openai.Completion.create( 
+    model_engine = GPT_MODEL
+    completion = openai.ChatCompletion.create( 
         engine=model_engine,
-        prompt=prompt,
-        max_tokens=1024,
-        n=1,
-        stop=None,
-        temperature=0.5,
+        messages=prompt,
     )
-    return completion["choices"][0]["text"]
+    return completion.choices[-1].message.content
 
 def coverLetterGenerator(data):
     profile = profileOrganizer(data)
