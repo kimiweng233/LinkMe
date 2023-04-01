@@ -160,29 +160,29 @@ export class UserFormComponent implements OnInit {
             response => {
                 console.log(response);
                 this.coverLetter = response['data'];
-                this.submitted = true;
-                this.readyforGen = true;
+                this.generated = true;
+                let target = document.querySelector('.cl');
+                let writer = new Typewriter(target, {
+                    loop: false,
+                    typeColor: 'black',
+                    typeSpeed: 15,
+                    cursorColor: 'black',
+                    blinkSpeed: 400,
+        
+                });
+                writer
+                    .addCursor()
+                    .type(this.coverLetter)
+                    .rest(500)
+                    .removeCursor()
+                    .start();
+
             },
             error => {
                 console.log(error);
             }
         )
-        this.generated = true;
-        let target = document.querySelector('.cl');
-        let writer = new Typewriter(target, {
-            loop: false,
-            typeColor: 'black',
-            typeSpeed: 15,
-            cursorColor: 'black',
-            blinkSpeed: 400,
 
-        });
-        writer
-            .addCursor()
-            .type(this.coverLetter)
-            .rest(500)
-            .removeCursor()
-            .start();
     }
 
     skipGen() {

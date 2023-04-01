@@ -91,13 +91,13 @@
               <div class="col-6">
                 <div class="form-group">
                   <label>Start Date</label>
-                  <input type="text" class="form-control" formControlName="startDate" placeholder="Month Year" />
+                  <input type="date" class="form-control" formControlName="startDate" placeholder="Month Year" />
                 </div>
               </div>
               <div class="col-6">
                 <div class="form-group">
                   <label>End Date (If Applicable)</label>
-                  <input type="text" class="form-control" formControlName="endDate" placeholder="Month Year">
+                  <input type="date" class="form-control" formControlName="endDate" placeholder="Month Year">
                 </div>
               </div>
               <div class="col-6">
@@ -138,7 +138,7 @@
                 </div>
                 <div class="row-auto">
                   <button type="button" class="btn btn-primary" (click)="skipGen()"
-                    [disabled]="!readyforGen">Skip</button>
+                    [disabled]="!generated">Skip</button>
                 </div>
               </div>
             </div>
